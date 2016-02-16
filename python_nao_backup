@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+import numpy as np
+import cv2
+from naoqi import *
+import vision_definitions
+
+# declarations
+img = cv2.imread('test.jpg')
+camProxy = ALProxy('ALVideoDevice', '192.168.2.21', 9559)
+resolution = vision_definitions.kQQVGA
+colorSpace = vision_definitions.kYUVColorSpace
+fps = 20
+
+#Show image and wait
+#cv2.imshow('image', img)
+#cv2.waitKey(0)
+
+# Get nao image
+nameId = camProxy.subscribe('python_GVM', resolution, colorSpace, fps)
+cv2.imshow('nao', camProxy.getImageRemote(nameId))
+cv2.waitKey(0)
+
+# Unsubscribe
+camProxy.unsubscribe(nameId) 
